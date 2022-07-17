@@ -430,6 +430,11 @@ impl DBusNetworkManager {
             .property(path, NM_ACCESS_POINT_INTERFACE, "Strength")
     }
 
+    pub fn get_access_point_frequency(&self, path: &str) -> Result<u32> {
+        self.dbus
+            .property(path, NM_ACCESS_POINT_INTERFACE, "Frequency")
+    }
+
     pub fn get_access_point_flags(&self, path: &str) -> Result<NM80211ApFlags> {
         self.dbus.property(path, NM_ACCESS_POINT_INTERFACE, "Flags")
     }

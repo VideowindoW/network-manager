@@ -90,6 +90,7 @@ pub struct AccessPoint {
     pub path: String,
     pub ssid: Ssid,
     pub strength: u32,
+    pub frequency: u32,
     pub security: Security,
 }
 
@@ -179,13 +180,16 @@ pub fn new_wifi_device<'a>(
 fn get_access_point(manager: &DBusNetworkManager, path: &str) -> Result<Option<AccessPoint>> {
     if let Some(ssid) = manager.get_access_point_ssid(path) {
         let strength = manager.get_access_point_strength(path)?;
+        let frequency = manager.get_access_point_frequency(path)?;
 
         let security = get_access_point_security(manager, path)?;
+
 
         let access_point = AccessPoint {
             path: path.to_string(),
             ssid: ssid,
             strength: strength,
+            frequency: frequency,
             security: security,
         };
 
