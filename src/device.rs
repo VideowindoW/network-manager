@@ -1,8 +1,8 @@
-use std::rc::Rc;
 use std::fmt;
+use std::rc::Rc;
 
-use errors::*;
 use dbus_nm::DBusNetworkManager;
+use errors::*;
 
 use wifi::{new_wifi_device, WiFiDevice};
 
@@ -23,8 +23,8 @@ impl Device {
         Ok(Device {
             dbus_manager: Rc::clone(dbus_manager),
             path: path.to_string(),
-            interface: interface,
-            device_type: device_type,
+            interface,
+            device_type,
         })
     }
 
@@ -320,7 +320,7 @@ mod tests {
 
         let i = devices
             .iter()
-            .position(|ref d| d.device_type == DeviceType::WiFi)
+            .position(|d| d.device_type == DeviceType::WiFi)
             .unwrap();
         let device = &devices[i];
 

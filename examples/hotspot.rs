@@ -1,7 +1,6 @@
 #[macro_use]
 extern crate error_chain;
 
-#[macro_use]
 extern crate clap;
 extern crate network_manager;
 
@@ -46,10 +45,10 @@ fn main() {
 
 fn run() -> Result<()> {
     let matches = App::new(file!())
-        .version(crate_version!())
+        .version(env!("CARGO_PKG_VERSION"))
         .arg(
             Arg::with_name("INTERFACE")
-                .short("i")
+                .short('i')
                 .takes_value(true)
                 .required(false)
                 .help("Network interface"),

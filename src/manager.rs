@@ -1,7 +1,7 @@
 use std::rc::Rc;
 
-use errors::*;
 use dbus_nm::DBusNetworkManager;
+use errors::*;
 
 use connection::{get_active_connections, get_connections, Connection};
 use device::{get_device_by_interface, get_devices, Device};
@@ -186,14 +186,14 @@ mod tests {
     fn test_get_connections() {
         let manager = NetworkManager::new();
         let connections = manager.get_connections().unwrap();
-        assert!(connections.len() > 0);
+        assert!(!connections.is_empty());
     }
 
     #[test]
     fn test_get_devices() {
         let manager = NetworkManager::new();
         let devices = manager.get_devices().unwrap();
-        assert!(devices.len() > 0);
+        assert!(!devices.is_empty());
     }
 
     #[test]

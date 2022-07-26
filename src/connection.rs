@@ -1,13 +1,13 @@
-use std::rc::Rc;
 use std::fmt;
 use std::net::Ipv4Addr;
+use std::rc::Rc;
 
-use errors::*;
 use dbus_nm::DBusNetworkManager;
+use errors::*;
 
-use wifi::{AccessPoint, AccessPointCredentials};
 use device::{get_active_connection_devices, Device};
 use ssid::{AsSsidSlice, Ssid};
+use wifi::{AccessPoint, AccessPointCredentials};
 
 #[derive(Clone)]
 pub struct Connection {
@@ -23,7 +23,7 @@ impl Connection {
         Ok(Connection {
             dbus_manager: Rc::clone(dbus_manager),
             path: path.to_string(),
-            settings: settings,
+            settings,
         })
     }
 
@@ -170,7 +170,7 @@ impl<'a> From<&'a Connection> for i32 {
         val.clone()
             .path
             .rsplit('/')
-            .nth(0)
+            .next()
             .unwrap()
             .parse::<i32>()
             .unwrap()
@@ -361,8 +361,7 @@ mod tests {
         let connection = match ::std::env::var(wifi_env_var) {
             Ok(ssid) => connections
                 .iter()
-                .filter(|c| c.settings().ssid.as_str().unwrap() == ssid)
-                .nth(0)
+                .find(|c| c.settings().ssid.as_str().unwrap() == ssid)
                 .unwrap()
                 .clone(),
             Err(e) => panic!(

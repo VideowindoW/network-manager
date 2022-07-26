@@ -1,8 +1,8 @@
-use std::rc::Rc;
 use std::net::Ipv4Addr;
+use std::rc::Rc;
 
-use errors::*;
 use dbus_nm::DBusNetworkManager;
+use errors::*;
 
 use connection::{connect_to_access_point, create_hotspot, Connection, ConnectionState};
 use device::{Device, PathGetter};
@@ -31,7 +31,8 @@ impl<'a> WiFiDevice<'a> {
     pub fn get_access_points(&self) -> Result<Vec<AccessPoint>> {
         let mut access_points = Vec::new();
 
-        let paths = self.dbus_manager
+        let paths = self
+            .dbus_manager
             .get_device_access_points(self.device.path())?;
 
         for path in paths {
@@ -173,7 +174,7 @@ pub fn new_wifi_device<'a>(
 ) -> WiFiDevice<'a> {
     WiFiDevice {
         dbus_manager: Rc::clone(dbus_manager),
-        device: device,
+        device,
     }
 }
 
@@ -184,13 +185,12 @@ fn get_access_point(manager: &DBusNetworkManager, path: &str) -> Result<Option<A
 
         let security = get_access_point_security(manager, path)?;
 
-
         let access_point = AccessPoint {
             path: path.to_string(),
-            ssid: ssid,
-            strength: strength,
-            frequency: frequency,
-            security: security,
+            ssid,
+            strength,
+            frequency,
+            security,
         };
 
         Ok(Some(access_point))
