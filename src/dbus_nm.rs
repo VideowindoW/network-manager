@@ -305,7 +305,7 @@ impl DBusNetworkManager {
 
         let mut ipv4: VariantMap = HashMap::new();
         if let Some(address) = address {
-            add_str(&mut ipv4, "method", "manual");
+            add_str(&mut ipv4, "method", "shared");
 
             let mut addr_map: VariantMap = HashMap::new();
             add_str(&mut addr_map, "address", format!("{}", address));
@@ -324,6 +324,7 @@ impl DBusNetworkManager {
             let mut security: VariantMap = HashMap::new();
             add_str(&mut security, "key-mgmt", "wpa-psk");
             add_str(&mut security, "psk", verify_ascii_password(password)?);
+            add_val(&mut security, "pmf", 1);
 
             settings.insert("802-11-wireless-security".to_string(), security);
         }
